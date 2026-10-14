@@ -1,7 +1,7 @@
 # Data
 
 This directory is reconstructed by the pipeline. Nothing here except this README
-is committed to git — the corpora are large and carry their own licenses.
+is committed to git, the corpora are large and carry their own licenses.
 
 ## Layout (after running the data stage)
 
@@ -35,14 +35,14 @@ python -m drc.data.download --config configs/base.yaml
 ```
 
 The repo ids live in the `data:` block of `configs/base.yaml` (defaulting to the
-official 2026 edition — `BabyLM-community/BabyLM-2026-Strict-Small` and
+official 2026 edition, `BabyLM-community/BabyLM-2026-Strict-Small` and
 `BabyLM-community/BabyLM-2026-Strict`). BabyLM re-releases yearly, so when a newer
-edition lands, point those two keys at it — no code change needed. You can also
+edition lands, point those two keys at it, no code change needed. You can also
 override per-run with `--strict-small-repo` / `--strict-repo`. If a repo can't be
 reached, the module raises a clear error rather than writing an empty corpus;
 check the current edition at <https://babylm.github.io>.
 
-`drc.data.parse` then parses **both** the corpus and the pool to CoNLL-U — dose
+`drc.data.parse` then parses **both** the corpus and the pool to CoNLL-U, dose
 generation draws its matched replacement sentences from the parsed pool.
 
 ## Licensing

@@ -22,7 +22,7 @@ The pipeline is built so a new construction is roughly an hour of work:
 4. Drop minimal-pair items at `evaluation/eval_items/<code>.jsonl`.
 5. Add filter unit tests in `tests/test_filters.py`.
 
-Everything downstream — dose corpora, training, evaluation, analysis — iterates
+Everything downstream, dose corpora, training, evaluation, analysis, iterates
 over `CONSTRUCTIONS`, so it picks up the new one automatically.
 
 ## Conventions
@@ -30,7 +30,7 @@ over `CONSTRUCTIONS`, so it picks up the new one automatically.
 - Keep heavy dependencies (torch, transformers, stanza, datasets) imported
   *lazily* inside functions, so modules import in a bare environment.
 - Use the module `logging` logger for progress, not `print`.
-- Don't tune the training hyperparameters in `configs/base.yaml` — they're frozen
+- Don't tune the training hyperparameters in `configs/base.yaml`: they're frozen
   on purpose (see the file's header comment).
 - Never commit corpora, checkpoints, or fabricated results.
 
