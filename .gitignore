@@ -51,3 +51,7 @@ paper/*.pdf
 
 # Smoke-run scratch (micro verification run)
 data/smoke/
+
+# Local tool config
+CLAUDE.md
+.claude/
