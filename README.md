@@ -7,8 +7,8 @@ exposure as a switch: the construction is either in the training corpus or
 filtered out ([Misra & Mahowald 2024](https://aclanthology.org/2024.emnlp-main.53/);
 [Patil et al. 2024](https://doi.org/10.1162/tacl_a_00720)). This project turns that
 switch into a dial. We train LTG-BERT models from scratch on BabyLM-10M with a
-target construction present at logarithmically spaced doses — 0, 4, 16, 64, and
-every attested instance — then fit parametric **dose-response curves** to the
+target construction present at logarithmically spaced doses - 0, 4, 16, 64, and
+every attested instance - then fit parametric **dose-response curves** to the
 resulting acceptability judgments. The fitted parameters (threshold `E50`, Hill
 slope `n`, floor `E0`, ceiling `Emax`) become a quantitative theory of how much
 direct evidence a construction needs.
@@ -37,7 +37,7 @@ The full design, hypotheses, and rationale live in [`docs/PRD.md`](docs/PRD.md).
 The four constructions span productivity, frequency, and theoretical priority,
 so heterogeneity in their curves can't collapse to a single confound. Five
 pre-registered hypotheses (H1–H5) each map to a distinct paper framing, chosen
-*after* the decision rule fires — see [`docs/PRD.md`](docs/PRD.md) §3 and
+*after* the decision rule fires - see [`docs/PRD.md`](docs/PRD.md) §3 and
 `drc.analysis.decision`.
 
 ## Install
@@ -103,7 +103,7 @@ Construction codes, dose levels, and seeds are defined once in
 pytest
 ```
 
-The suite covers the dependency-light logic — construction filters (against
+The suite covers the dependency-light logic - construction filters (against
 fake parses), the n-gram model, the Hill curve math, the package constants, and
 the evaluation-item schema. It runs without the ML stack.
 
@@ -122,4 +122,4 @@ See [`CITATION.cff`](CITATION.cff). The manuscript source is in
 ## License
 
 Code is released under the [MIT License](LICENSE). BabyLM and the external
-evaluation sets carry their own licenses — see [`data/README.md`](data/README.md).
+evaluation sets carry their own licenses - see [`data/README.md`](data/README.md).
