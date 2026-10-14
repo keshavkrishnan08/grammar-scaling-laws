@@ -1,4 +1,4 @@
-"""Unit tests for the BabyLM download helpers — pure, no network.
+"""Unit tests for the BabyLM download helpers, pure, no network.
 
 We can't hit the Hub in CI, but we can pin the parts that decide whether the
 pulled data is shaped correctly: the domain-from-filename mapping, the

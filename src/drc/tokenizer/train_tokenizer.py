@@ -1,8 +1,8 @@
 """Train the one Byte-Level BPE tokenizer the whole sweep shares.
 
 Every model in the experiment reads the same vocabulary. If each run trained its
-own tokenizer the perplexities wouldn't be comparable across doses — different
-segmentation, different loss surface — so we fit a single tokenizer once, freeze
+own tokenizer the perplexities wouldn't be comparable across doses, different
+segmentation, different loss surface: so we fit a single tokenizer once, freeze
 it, and point all 60 runs at it.
 
 We train on the canonical corpus: the AANN dose=all corpus built with corpus
@@ -66,7 +66,7 @@ def default_corpus_path(config: dict[str, Any], config_path: Path) -> Path:
 
     Matches the filename convention in :mod:`drc.data.dose_corpora`
     (``{construction}_dose-{dose}.conllu``). With a shared full-corpus design we
-    train on that full corpus — it's the largest and always present; otherwise we
+    train on that full corpus: it's the largest and always present; otherwise we
     fall back to the legacy AANN dose=all corpus.
     """
     from drc.design import FULL_CORPUS_CODE, shares_full_corpus

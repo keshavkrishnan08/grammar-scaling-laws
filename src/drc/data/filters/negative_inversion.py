@@ -8,7 +8,7 @@ the subject and the auxiliary, just like in a question:
      NEG   AUX  subject
 
 Drop the inversion and the sentence breaks: *"never I have seen ...". The trigger
-is a closed class of negative/restrictive expressions — "never", "rarely",
+is a closed class of negative/restrictive expressions, "never", "rarely",
 "hardly", "not only", "no sooner", "little" (in its negative sense), and friends.
 We match a sentence opening with one of these, immediately followed by an
 auxiliary that lands *before* the subject. We check that the token after the
@@ -69,7 +69,7 @@ class NegativeInversionFilter:
 
     We match the trigger at the left edge, then require an auxiliary in the very
     next slot (after the trigger's one or two words) with a subject right behind
-    it. The AUX-before-subject ordering is what marks the inversion — without it
+    it. The AUX-before-subject ordering is what marks the inversion, without it
     the fronted adverbial is just an ordinary sentence opener.
     """
 

@@ -1,18 +1,18 @@
 """Fault-tolerant pipeline runner for the DRC stages.
 
-The pipeline is genuinely sequential — you can't train without corpora or fit
-curves without eval results — but a long Kaggle session shouldn't fall over just
+The pipeline is genuinely sequential: you can't train without corpora or fit
+curves without eval results: but a long Kaggle session shouldn't fall over just
 because one stage hit a bad batch or an OOM. So this runner gives us three things
 the bare CLIs don't:
 
 1. **Crash isolation.** Every stage runs in its own subprocess. A segfault, a
-   CUDA OOM, or a hard kill takes down that subprocess and nothing else — the
+   CUDA OOM, or a hard kill takes down that subprocess and nothing else, the
    notebook kernel survives, the runner records the failure, and it keeps going.
 2. **Idempotent resume.** Each stage knows what it produces. Re-run the pipeline
    after a timeout and finished stages are skipped, so you pick up where you
    stopped instead of redoing seven hours of training.
 3. **Honest dependency gating.** A stage whose inputs never arrived is marked
-   ``blocked`` rather than run-and-crash. Independent stages still run — the
+   ``blocked`` rather than run-and-crash. Independent stages still run, the
    n-gram baseline only needs the corpora, so it goes ahead even if the whole
    training sweep failed.
 
@@ -69,7 +69,7 @@ class StageResult:
 class Stage:
     """One unit of pipeline work.
 
-    ``action`` does the work and raises on failure — that's the whole contract.
+    ``action`` does the work and raises on failure, that's the whole contract.
     ``is_done`` lets a stage declare itself already complete (used for resume and
     idempotency); when it returns True the action is skipped. ``requires`` names
     the stages that must be satisfied first. A non-critical stage that fails does
@@ -153,7 +153,7 @@ def run_pipeline(
         if only_set is not None and stage.name not in only_set:
             continue
 
-        # Already finished? Skip it — this is what makes a re-run resume cleanly.
+        # Already finished? Skip it: this is what makes a re-run resume cleanly.
         if stage.name not in force:
             try:
                 already = stage.is_done()
@@ -184,12 +184,12 @@ def run_pipeline(
             stage.action()
             results[stage.name] = StageResult(stage.name, DONE, seconds=time.time() - t0)
             logger.info("[done] %s (%.1fs)", stage.name, time.time() - t0)
-        except Exception as exc:  # noqa: BLE001 — isolation is the whole point
+        except Exception as exc:  # noqa: BLE001: isolation is the whole point
             results[stage.name] = StageResult(
                 stage.name, FAILED, seconds=time.time() - t0, detail=str(exc)
             )
             tag = "critical " if stage.critical else ""
-            # We never abort the whole run on a failure — not even a critical one.
+            # We never abort the whole run on a failure, not even a critical one.
             # A failed stage just means its dependents get blocked; everything
             # independent still runs. The dashboard shows exactly what happened.
             logger.error(
@@ -333,7 +333,7 @@ def default_phases(config_path: Path, single_gpu: bool = False) -> list[Stage]:
             requires=("hill",), description="render the core paper figures",
         ),
         # The three analyses below widen the contribution beyond the closest
-        # prior work (Oba et al. 2024), and need no new training — they reuse the
+        # prior work (Oba et al. 2024), and need no new training, they reuse the
         # eval outputs and fitted curves.
         Stage(
             "transfer", cli("drc.analysis.transfer"),

@@ -1,7 +1,7 @@
 """Existential "there": "there is/are NP".
 
 English has a dedicated construction where an unstressed expletive "there" fills
-the subject slot and the logical subject — the "pivot" — shows up after the
+the subject slot and the logical subject: the "pivot", shows up after the
 copula:
 
     "there are three cats on the mat"
@@ -59,7 +59,7 @@ class ExistentialThereFilter:
                 continue
 
             # Slot 1: a form of "be". Lemma covers is/are/was/were/'s. The verb
-            # agrees with the pivot, not with "there" — but we don't enforce that
+            # agrees with the pivot, not with "there": but we don't enforce that
             # here, it's exactly the contrast the eval items probe.
             if be.lemma != "be":
                 continue

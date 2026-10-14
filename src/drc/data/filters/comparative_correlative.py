@@ -7,7 +7,7 @@ covaries with the other:
      ^^^ ^^^^^^          ^^^ ^^^^^
      the COMP            the COMP
 
-The "the" here isn't an ordinary article — it's a frozen degree marker, and the
+The "the" here isn't an ordinary article: it's a frozen degree marker, and the
 construction is semi-idiomatic: the meaning ("as X increases, so does Y") isn't
 fully predictable from the parts. We detect it structurally by finding two
 "the + comparative" openings split by a comma, with the first clause sitting at
@@ -87,7 +87,7 @@ class ComparativeCorrelativeFilter:
             # for a stray leading token but really expect index 0.
             clause_initial = first <= 1
 
-            # A comma has to separate the two clauses — it's the orthographic
+            # A comma has to separate the two clauses: it's the orthographic
             # seam of the construction. Look for one strictly between the two
             # "the"s.
             comma_between = any(

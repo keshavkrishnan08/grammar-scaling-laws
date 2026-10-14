@@ -4,14 +4,14 @@ The neural results are the headline, but a skeptic will ask whether a model is
 really *learning the construction* or just tracking local word co-occurrence.
 So we run the same minimal-pair test with a plain 4-gram language model trained
 on each dose corpus. If accuracy still climbs with dose under n-grams alone, the
-"learning" story is partly deflated — the signal was recoverable from surface
+"learning" story is partly deflated: the signal was recoverable from surface
 statistics. If it doesn't, that's evidence the neural model is doing something
 n-grams can't.
 
 Smoothing: interpolated add-k (Jelinek-Mercer-style backoff). For each order we
 mix the maximum-likelihood estimate with the next lower order, and the unigram
 sits on add-k over the vocabulary so nothing is ever zero. We pick simple,
-documented smoothing over a finicky Kneser-Ney implementation on purpose — the
+documented smoothing over a finicky Kneser-Ney implementation on purpose, the
 baseline only has to be honest and reproducible, not state of the art. The
 interpolation weights and k are module constants below.
 
@@ -98,7 +98,7 @@ class NgramLM:
     Counts are stored per order as ``{context_tuple: {word: count}}``. Scoring
     walks down from the top order, mixing each order's MLE by INTERP_WEIGHTS and
     letting the add-k unigram catch anything unseen. It's not the fastest design,
-    but it's transparent — you can read the smoothing straight off the code.
+    but it's transparent: you can read the smoothing straight off the code.
     """
 
     def __init__(self, order: int = NGRAM_ORDER, add_k: float = ADD_K):
@@ -175,7 +175,7 @@ class NgramLM:
         return total
 
     def normalized_logprob(self, sentence: str) -> float:
-        """Length-normalised log-prob — the score we compare across a pair.
+        """Length-normalised log-prob: the score we compare across a pair.
 
         We divide by the number of scored positions (words plus the EOS) so long
         and short sentences are comparable, the same spirit as SLOR's /|s|.
@@ -206,7 +206,7 @@ def train_ngram_lm(corpus_path: Path, order: int = NGRAM_ORDER) -> NgramLM:
     Tries KenLM only if explicitly available *and* useful; we ship the
     pure-Python model as the default because it has zero install footprint and
     the baseline doesn't need to be fast. KenLM scoring would also require
-    building ARPA files, which isn't worth the complexity here — so we note the
+    building ARPA files, which isn't worth the complexity here, so we note the
     option and move on.
     """
     logger.info("Training %d-gram LM on %s", order, corpus_path.name)
@@ -297,8 +297,8 @@ def run(
 ) -> None:
     """Train an n-gram LM per dose corpus and score it on all four test sets.
 
-    The n-gram LM has no random seed — it's a deterministic count over the
-    corpus — but the neural sweep records three seeds per (construction, dose).
+    The n-gram LM has no random seed: it's a deterministic count over the
+    corpus: but the neural sweep records three seeds per (construction, dose).
     To keep the CSV schema aligned for downstream joins, we emit one row per
     seed with identical numbers. That way the baseline lines up against the
     neural results without special-casing the join.

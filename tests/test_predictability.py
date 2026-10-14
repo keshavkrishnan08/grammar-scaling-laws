@@ -1,7 +1,7 @@
 """Tests for the corpus-property -> learnability predictor module (RQ4).
 
-We build a tiny synthetic results/ tree in tmp_path — positives jsonl per
-construction, a hill_fits.csv, a dose sanity json — run the core functions, and
+We build a tiny synthetic results/ tree in tmp_path, positives jsonl per
+construction, a hill_fits.csv, a dose sanity json, run the core functions, and
 check the output tables come out the right shape with the expected columns.
 Skipped wholesale when pandas/scipy aren't installed.
 """

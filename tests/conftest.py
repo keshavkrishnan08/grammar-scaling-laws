@@ -52,7 +52,7 @@ def make_sentence(rows, text: str | None = None) -> FakeSentence:
 
     Word ids are assigned 1..N in order, matching Stanza's 1-based indexing, so
     ``head`` values in the rows can reference those ids directly. When ``text``
-    isn't given we join the token texts with spaces — good enough for the
+    isn't given we join the token texts with spaces, good enough for the
     text-based regex path in the comparative-correlative filter.
     """
     words = [

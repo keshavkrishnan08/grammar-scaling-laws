@@ -1,4 +1,4 @@
-"""Build the dose-level corpora — the heart of the experiment.
+"""Build the dose-level corpora: the heart of the experiment.
 
 For each construction we want a family of corpora that differ in exactly one
 thing: how many times the target construction shows up. Dose 0 sees it zero
@@ -95,7 +95,7 @@ def _stable_index(key: int, n: int) -> int:
     """A deterministic index in ``[0, n)`` from an integer key.
 
     We hash explicitly with md5 rather than Python's built-in ``hash``, whose
-    salt varies between interpreter runs — reproducibility across machines is
+    salt varies between interpreter runs: reproducibility across machines is
     the whole point of the corpus seed.
     """
     digest = hashlib.md5(f"{CORPUS_SEED}:{key}".encode()).digest()
@@ -108,7 +108,7 @@ def _choose_replacement(
 ) -> ParsedSentence | None:
     """Pick a pool sentence to stand in for a removed positive.
 
-    The choice is a deterministic function of the removed slot *alone* — same
+    The choice is a deterministic function of the removed slot *alone*, same
     domain, the tightest length band that has candidates, tie-broken by length
     and sent_id, then indexed by a stable hash of the removed sentence's id. It
     does **not** depend on the dose or on which other slots were removed.

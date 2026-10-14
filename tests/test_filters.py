@@ -30,7 +30,7 @@ def test_aann_matches_a_lovely_three_days(make_sentence_fixture):
 
 
 def test_aann_rejects_singular_noun(make_sentence_fixture):
-    """'a lovely day' is an ordinary NP, not AANN — singular and no numeral."""
+    """'a lovely day' is an ordinary NP, not AANN, singular and no numeral."""
     aann = get_filter("aann")
     sent = make_sentence_fixture(
         [
@@ -106,7 +106,7 @@ def test_tough_movement_matches_easy_to_read(make_sentence_fixture):
 
 
 def test_tough_movement_rejects_eager_adjective(make_sentence_fixture):
-    """'this book is eager to please' — 'eager' isn't in the tough class."""
+    """'this book is eager to please': 'eager' isn't in the tough class."""
     tough = get_filter("tough_movement")
     sent = make_sentence_fixture(
         [
@@ -142,7 +142,7 @@ def test_resultative_matches_hammered_metal_flat(make_sentence_fixture):
 
 
 def test_resultative_rejects_verb_with_only_object(make_sentence_fixture):
-    """'he hammered the metal' has an obj but no result AP — not resultative."""
+    """'he hammered the metal' has an obj but no result AP, not resultative."""
     resultative = get_filter("resultative")
     sent = make_sentence_fixture(
         [
@@ -178,7 +178,7 @@ def test_existential_there_matches_there_are_three_cats(make_sentence_fixture):
 
 
 def test_existential_there_rejects_locative_there(make_sentence_fixture):
-    """'put it there' — sentence-final locative 'there', no existential frame."""
+    """'put it there': sentence-final locative 'there', no existential frame."""
     et = get_filter("existential_there")
     sent = make_sentence_fixture(
         [
@@ -212,7 +212,7 @@ def test_it_cleft_matches_it_was_the_dog_that_barked(make_sentence_fixture):
 
 
 def test_it_cleft_rejects_subject_aux_question(make_sentence_fixture):
-    """'was it the dog that barked' is a question — 'it' isn't clause-initial."""
+    """'was it the dog that barked' is a question, 'it' isn't clause-initial."""
     cleft = get_filter("it_cleft")
     sent = make_sentence_fixture(
         [
@@ -249,7 +249,7 @@ def test_negative_inversion_matches_never_have_I_seen(make_sentence_fixture):
 
 
 def test_negative_inversion_rejects_uninverted_order(make_sentence_fixture):
-    """'never I have seen ...' keeps the subject before the aux — not inverted."""
+    """'never I have seen ...' keeps the subject before the aux, not inverted."""
     neg = get_filter("negative_inversion")
     sent = make_sentence_fixture(
         [
@@ -286,7 +286,7 @@ def test_subject_to_object_raising_matches_believed_him_to_be(make_sentence_fixt
 
 
 def test_subject_to_object_raising_rejects_missing_to(make_sentence_fixture):
-    """'they believed him be guilty' drops the infinitival 'to' — ungrammatical."""
+    """'they believed him be guilty' drops the infinitival 'to', ungrammatical."""
     raising = get_filter("subject_to_object_raising")
     sent = make_sentence_fixture(
         [

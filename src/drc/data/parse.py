@@ -1,8 +1,8 @@
 """Parse the raw corpus once with Stanza and cache it as CoNLL-U.
 
 Dependency parsing is the slow part of this whole pipeline, so we do it exactly
-once. Every later stage — the construction filters, dose-corpus generation, the
-QA audit — reads the cached CoNLL-U instead of touching Stanza again. If the
+once. Every later stage: the construction filters, dose-corpus generation, the
+QA audit: reads the cached CoNLL-U instead of touching Stanza again. If the
 output already exists we skip the work entirely unless you pass ``--force``.
 
 We stream to disk one sentence per block as we go, rather than holding the
@@ -65,7 +65,7 @@ def _iter_documents(raw_path: Path) -> Iterator[tuple[str, str]]:
 def _build_pipeline(use_gpu: bool):
     """Construct the Stanza pipeline. Imported lazily so the module loads bare.
 
-    Auto-downloads the English models if they're missing — Stanza needs a
+    Auto-downloads the English models if they're missing, Stanza needs a
     one-time ``download('en')`` and a fresh Kaggle/Colab box won't have them, so
     we do it here rather than make the caller remember a separate step. The
     download is idempotent (it skips models already on disk).
@@ -83,7 +83,7 @@ def _build_pipeline(use_gpu: bool):
             lang=STANZA_LANG,
             processors=STANZA_PROCESSORS,
             use_gpu=use_gpu,
-            # Batched, no verbose per-batch chatter — our own logger handles progress.
+            # Batched, no verbose per-batch chatter: our own logger handles progress.
             verbose=False,
         )
 
@@ -192,7 +192,7 @@ def parse_corpus(
 
         Calling the pipeline per record (the old behaviour) spent almost all its
         time on per-call overhead. Handing Stanza a list of Documents lets it
-        batch the neural work across them — the difference between ~1k and tens
+        batch the neural work across them: the difference between ~1k and tens
         of thousands of sentences a minute on a GPU.
         """
         if not buffer:
@@ -227,7 +227,7 @@ def write_lightweight_conllu(
 ) -> Path:
     """Write a minimal CoNLL-U for the replacement pool WITHOUT running Stanza.
 
-    The pool is only ever used as length/domain-matched filler — nothing reads
+    The pool is only ever used as length/domain-matched filler, nothing reads
     its parse trees (dose generation matches on text and word count). Full
     dependency-parsing millions of pool sentences would cost many hours for
     nothing, so we whitespace-tokenise instead and emit one ``FORM`` per token
@@ -235,7 +235,7 @@ def write_lightweight_conllu(
     ``conll2doc`` both read this fine; the filler carries no construction, so it
     contributes zero matches to the dose sanity counts.
 
-    ``max_records`` caps how many records we keep — a few hundred thousand
+    ``max_records`` caps how many records we keep, a few hundred thousand
     matched-filler candidates is plenty, and it bounds the memory the dose stage
     uses when it loads the pool.
     """
@@ -326,7 +326,7 @@ def _count_block_tokens(block: str) -> int:
 
 
 def read_metadata(conllu_path: Path) -> Iterator[ParsedSentence]:
-    """Stream sentences with metadata only — no Stanza object attached.
+    """Stream sentences with metadata only: no Stanza object attached.
 
     This is the cheap path. Length/domain matching in dose generation never
     needs the parse tree, so it reads metadata alone and keeps Stanza out of it.
@@ -410,7 +410,7 @@ def run(config_path: Path, force: bool = False, use_gpu: bool | None = None) -> 
     pool_raw = resolve_path(config_path, config["paths"]["replacement_pool"])
     pool_out = resolve_path(config_path, config["paths"]["parsed_pool"])
     if pool_raw.exists():
-        # The pool is matched filler only — no parse trees are ever needed, so we
+        # The pool is matched filler only: no parse trees are ever needed, so we
         # tokenise it cheaply instead of Stanza-parsing millions of sentences.
         logger.info("Preparing replacement pool (lightweight) %s -> %s", pool_raw, pool_out)
         write_lightweight_conllu(pool_raw, pool_out, force=force, max_records=400_000)

@@ -2,7 +2,7 @@
 
 These don't run the notebooks (that needs Kaggle's GPUs); they just guard
 against shipping a broken artifact. Each notebook must be valid nbformat v4
-JSON with at least one cell, and every code cell's Python must actually parse —
+JSON with at least one cell, and every code cell's Python must actually parse, 
 catching the classic "edited the JSON by hand and broke a quote" mistake.
 
 Jupyter magics (``%pip ...``) and shell lines (``!nvidia-smi``) aren't valid

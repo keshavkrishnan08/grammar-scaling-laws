@@ -7,7 +7,7 @@ expletive "it" and a copula, with the rest packaged into a relative-like clause:
      ^^ ^^^ ^^^^ ^^^
      it  BE  focus REL
 
-The "it" is non-referential — it doesn't point at anything — and the focused XP
+The "it" is non-referential: it doesn't point at anything, and the focused XP
 ("John") is what the sentence is really about. The trailing clause opens with a
 relativizer ("that", "who", "which", "whom"). We match the surface frame:
 sentence-initial "it", a form of BE, at least one token of focused material,
@@ -25,7 +25,7 @@ from .base import FilterMatch, words
 # The words that can open the cleft's trailing clause. "that" is the default;
 # "who"/"whom" front human foci, "which" non-human ones. We keep the set tight
 # so an ordinary "it was nice that you came" extraposition doesn't leak in via a
-# bare complementizer — those are caught only when a real focus XP precedes.
+# bare complementizer: those are caught only when a real focus XP precedes.
 _RELATIVIZERS = frozenset({"that", "who", "whom", "which"})
 
 

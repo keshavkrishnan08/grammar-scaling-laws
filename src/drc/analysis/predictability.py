@@ -1,4 +1,4 @@
-"""Predict a construction's learnability from its corpus footprint — RQ4.
+"""Predict a construction's learnability from its corpus footprint, RQ4.
 
 The headline target is now ``E0``, the indirect-evidence floor: how well a model
 handles a construction it never saw directly. ``E0`` exists for *all eight*
@@ -9,43 +9,43 @@ a smaller secondary check. Both are exploratory.
 
 **Pre-registered predictor set.** These four predictors, their definitions, and
 the choice of E0 as the headline target were fixed *before* looking at the
-fitted values — they're a-priori and, crucially, non-circular: none of them is
+fitted values: they're a-priori and, crucially, non-circular: none of them is
 the construction's own attested count dressed up. The headline predictors:
 
-* **neighbor_density** — how much *structurally related but distinct* evidence
+* **neighbor_density**: how much *structurally related but distinct* evidence
   surrounds the construction. NON-CIRCULAR by construction: it is built only
   from the OTHER constructions' positives, never this one's. We use a documented
   lexical-overlap proxy: for each other construction we weight its attested
   count by the Jaccard overlap between its content-token vocabulary and this
   construction's, then sum. High when sibling constructions are both frequent
-  and lexically similar — a stand-in for "indirect evidence is nearby". (A POS
+  and lexically similar: a stand-in for "indirect evidence is nearby". (A POS
   n-gram skeleton would be cleaner but needs a Stanza pass; the lexical proxy is
   the cheap, documented approximation.)
-* **productivity** — type/token ratio of content-word lemmas across the
+* **productivity**: type/token ratio of content-word lemmas across the
   construction's own attested instances. A proxy for lexical openness: a
   construction that recurs with the same few words is less "productive" than one
   that hosts a fresh vocabulary each time. Lemmas are approximated with
   lowercased whitespace tokens minus a small stopword set (see ``_STOPWORDS``).
-* **surface_predictability** — mean per-token unigram log-prob of the attested
+* **surface_predictability**: mean per-token unigram log-prob of the attested
   instances under a unigram model built from those same instances (n-gram
   surface recoverability). Higher means the construction lives in
   high-frequency, easy-to-anticipate words. Reuses
   ``drc.eval.slor.build_unigram_counts`` / ``unigram_logprob`` so the units
   match the SLOR pipeline exactly.
 
-* **attested_count** — how many positive instances the corpus holds. Kept as a
+* **attested_count**: how many positive instances the corpus holds. Kept as a
   SEPARATE predictor, expected to be weak and explicitly NOT the headline; it's
   the raw-exposure baseline the others should beat. Read from the dose sanity
   JSON's ``dose-all`` entry when present, else the positives ``.jsonl`` line
   count.
 
 Then we join with E0 (all eight) and E50 (four core) and correlate each
-predictor against each — Spearman *and* Pearson, because with so few points a
+predictor against each: Spearman *and* Pearson, because with so few points a
 single outlier can flip Pearson while Spearman holds.
 
 A loud honesty caveat, baked into the output and the logs: **there are only
 eight constructions, four of them core.** Seeds give more rows, but those are
-pseudo-replicates — the predictors are identical within a construction. We
+pseudo-replicates: the predictors are identical within a construction. We
 correlate at the construction level (n=8 for E0, n=4 for E50) and flag the whole
 thing as exploratory, not an established law. Treat the p-values as decoration.
 
@@ -114,7 +114,7 @@ def _read_positive_texts(path: Path) -> list[str]:
     """Pull one surface string per attested instance from a positives ``.jsonl``.
 
     The filter stage writes line-delimited JSON. We accept whichever text field
-    is present — ``text``, ``sentence``, or ``good_sentence`` — and fall back to
+    is present: ``text``, ``sentence``, or ``good_sentence``, and fall back to
     the raw line if a record is a bare string. Blank lines are skipped. A record
     with no usable text is dropped with a warning rather than crashing the run;
     one malformed line shouldn't sink the whole analysis.
@@ -153,7 +153,7 @@ def _read_positive_texts(path: Path) -> list[str]:
 
 
 def _content_tokens(text: str) -> list[str]:
-    """Lowercased whitespace tokens minus stopwords — the lemma stand-in.
+    """Lowercased whitespace tokens minus stopwords, the lemma stand-in.
 
     Whitespace tokenisation is crude, but the productivity ratio only needs a
     consistent rule applied to every construction, not linguistic truth. We
@@ -214,7 +214,7 @@ def _neighbor_density(
     (its attested count) x (Jaccard overlap of its content vocabulary with this
     construction's). The target construction's own count never enters, so this
     can't collapse into ``attested_count``. High when sibling constructions are
-    both frequent and lexically similar — the documented proxy for "indirect
+    both frequent and lexically similar: the documented proxy for "indirect
     evidence is nearby".
     """
     me = vocab.get(cons, set())
@@ -237,7 +237,7 @@ def compute_predictors(
     columns. ``productivity`` and ``surface_predictability`` come from the
     construction's own positives; ``neighbor_density`` is built only from the
     OTHER constructions (non-circular); ``attested_count`` is the raw-exposure
-    baseline. Raises if a positives file is missing — better a clear stop than a
+    baseline. Raises if a positives file is missing, better a clear stop than a
     silently short table.
     """
     import pandas as pd
@@ -347,14 +347,14 @@ def _construction_level_targets(hill_fits: pd.DataFrame) -> pd.DataFrame:
     """Mean (and std) of each target per construction, over seeds.
 
     We collapse seeds to one row per construction because the predictors are
-    constant within a construction — correlating at the seed level would just
+    constant within a construction: correlating at the seed level would just
     inflate n with copies. The std comes along so the figure can draw error bars.
 
     Each target is aggregated over rows where it is finite. That matters for the
     tiered design: ``E0`` exists for all eight constructions (breadth rows carry
     it even though their Hill fit didn't converge), while ``E50`` is NaN for
     breadth and so collapses to the four core constructions on its own. We do
-    NOT pre-filter to ``converged`` here — that would throw away breadth E0.
+    NOT pre-filter to ``converged`` here: that would throw away breadth E0.
     """
     import numpy as np
 
@@ -389,7 +389,7 @@ def correlate(
     Returns ``(merged, correlations)``. ``merged`` is the construction-level
     table (predictors + mean/std targets). ``correlations`` has one row per
     (predictor, target) pair with Spearman and Pearson coefficients, their
-    p-values, and ``n_constructions`` — the number of constructions the target
+    p-values, and ``n_constructions``: the number of constructions the target
     is defined over (eight for E0, four for E50), meant to be read as a warning
     label. Every row is flagged ``exploratory_only``.
     """

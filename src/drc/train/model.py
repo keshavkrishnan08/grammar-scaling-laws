@@ -3,8 +3,8 @@
 The paper's architecture of record is LTG-BERT-base (Samuel et al. 2023, the
 BabyLM 2023 strict-track winner; reference implementation at
 https://github.com/ltgoslo/ltg-bert). LTG-BERT swaps in a handful of changes on
-top of vanilla BERT — NormFormer-style layer norm placement, GeGLU feed-forward
-blocks, disentangled relative attention — that buy a couple of points on small
+top of vanilla BERT: NormFormer-style layer norm placement, GeGLU feed-forward
+blocks, disentangled relative attention: that buy a couple of points on small
 corpora.
 
 At this scale, though, what matters for the dose-response comparison is that the
@@ -14,7 +14,7 @@ LTG-BERT-base shape from ``base.yaml`` (hidden 384, 12 layers, 6 heads,
 intermediate 1024, max positions 128, vocab 16384). It's the documented,
 functionally-equivalent fallback: a standard, well-tested MLM at the right
 capacity. If you want the exact LTG-BERT blocks, drop their model file in and
-have ``build_model`` return it instead — everything downstream only assumes a
+have ``build_model`` return it instead: everything downstream only assumes a
 HuggingFace MLM that returns a ``.loss`` and takes ``input_ids`` /
 ``attention_mask`` / ``labels``.
 

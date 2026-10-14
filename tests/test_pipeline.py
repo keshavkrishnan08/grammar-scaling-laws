@@ -23,7 +23,7 @@ def test_failure_is_isolated_and_run_continues():
     """A non-critical failure is recorded; later independent stages still run."""
     stages = [
         Stage("a", _boom),
-        Stage("b", _ok),  # no dependency on a — must still run
+        Stage("b", _ok),  # no dependency on a: must still run
     ]
     results = run_pipeline(stages)
     assert results["a"].status == FAILED
@@ -44,7 +44,7 @@ def test_dependents_of_failure_are_blocked():
 
 
 def test_finished_stage_is_skipped():
-    """is_done short-circuits work — this is what makes a re-run resume."""
+    """is_done short-circuits work: this is what makes a re-run resume."""
     ran = []
     stages = [Stage("a", lambda: ran.append("a"), is_done=lambda: True)]
     results = run_pipeline(stages)

@@ -12,7 +12,7 @@ Two ways to get labels:
     column for you to fill in by hand. Re-run with ``--score`` to read it back.
   * ``--judge llm`` calls Claude to label each sentence. It's a convenience for
     a first pass, not a replacement for human review, and it never invents a
-    label — if the SDK or API key is missing, it stops and tells you why.
+    label: if the SDK or API key is missing, it stops and tells you why.
 
 The audit is a two-phase thing: generate the CSV, label it, then score it.
 We never fabricate the human column.
@@ -43,7 +43,7 @@ logger = logging.getLogger(__name__)
 SAMPLE_PER_CLASS = 200
 AUDIT_SEED = 42
 
-# CSV schema. Keep these names stable — the scorer reads them back by key.
+# CSV schema. Keep these names stable: the scorer reads them back by key.
 CSV_FIELDS = ("sentence_id", "sentence_text", "filter_label", "human_label", "notes")
 
 # Claude model for the optional LLM judge. Matches the repo-wide model pin.
@@ -77,7 +77,7 @@ def sample_sentences(
 
     Returns rows ready for the CSV: each carries the sentence, the filter's
     label (1/0), and an empty ``human_label`` for grading. We do reservoir-free
-    sampling — collect both classes, then take a seeded random slice of each —
+    sampling: collect both classes, then take a seeded random slice of each, 
     because we want a fixed, reproducible audit set.
     """
     filt = _get_filter(code)
@@ -134,7 +134,7 @@ def write_audit_csv(rows: list[dict[str, Any]], csv_path: Path) -> None:
 def llm_audit(sentence_text: str, construction_definition: str) -> int:
     """Ask Claude whether a sentence contains the construction. Returns 1/0.
 
-    A convenience judge for a first pass — fast, cheap, and good enough to
+    A convenience judge for a first pass: fast, cheap, and good enough to
     triage obvious cases before a human looks. It is *not* ground truth.
 
     ``anthropic`` is imported here so this module loads without it. Both a

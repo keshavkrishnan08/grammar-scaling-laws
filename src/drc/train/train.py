@@ -6,7 +6,7 @@ carve off a held-out slice, run masked-LM training with whole-word masking, and
 save the weights plus a final held-out perplexity.
 
 Everything that could vary between runs is pinned. Hyperparameters come from
-``base.yaml`` and are identical across all 60 runs — that's the whole point, the
+``base.yaml`` and are identical across all 60 runs, that's the whole point, the
 only thing that changes is the corpus and the seed. We seed torch, numpy,
 python's ``random``, and CUDA, and turn on deterministic algorithms where
 they're available, so a rerun reproduces the curve.
@@ -56,7 +56,7 @@ def seed_everything(seed: int) -> None:
     """Seed every RNG that touches a run and ask torch for determinism.
 
     ``use_deterministic_algorithms(True)`` makes torch error if it hits a kernel
-    with no deterministic implementation, which is what we want — better a loud
+    with no deterministic implementation, which is what we want, better a loud
     failure than a silently irreproducible run. We set the cuBLAS workspace env
     var it requires, and fall back gracefully if a given torch build can't honor
     the request.
@@ -126,7 +126,7 @@ def _tokenize(sentences: list[str], tokenizer, max_seq_length: int):
     """Tokenize sentences into fixed-length tensors of input ids.
 
     We truncate to ``max_seq_length`` and pad to it, so every example is the
-    same width — simplest thing that batches cleanly, and at seq len 128 the
+    same width: simplest thing that batches cleanly, and at seq len 128 the
     padding waste on this corpus is small.
     """
     enc = tokenizer(

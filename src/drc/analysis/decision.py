@@ -1,21 +1,21 @@
 """Apply the pre-registered decision rules and name the winning hypothesis.
 
 We locked these five rules before looking at the fitted numbers, which is the
-whole point — the result this script prints is whatever the data says, not a
+whole point: the result this script prints is whatever the data says, not a
 story we backfilled. Each rule maps to a paper title from the PRD Outcome
 Matrix, so the output doubles as "here's what we're calling the paper."
 
 The rules, in the order we check them:
 
-* **H1 Smooth Scaling** — Hill wins by AIC for every construction, and the mean
+* **H1 Smooth Scaling**: Hill wins by AIC for every construction, and the mean
   Hill coefficient sits in [0.5, 2.0]. Learning is a gentle saturating climb.
-* **H2 Phase Transition** — Hill wins everywhere, but mean n > 4. Same curve,
+* **H2 Phase Transition**: Hill wins everywhere, but mean n > 4. Same curve,
   far steeper: grammatical grokking.
-* **H3 Heterogeneous** — k=2 clusters separate cleanly (silhouette > 0.5), or
+* **H3 Heterogeneous**: k=2 clusters separate cleanly (silhouette > 0.5), or
   Hill wins for some constructions while step wins for others. Two routes.
-* **H4 Indirect Evidence Dominates** — the climb from floor to ceiling is tiny
+* **H4 Indirect Evidence Dominates**: the climb from floor to ceiling is tiny
   (mean (Emax-E0)/Emax < 0.1). Direct exposure barely moves the needle.
-* **H5 Stochastic** — seed-to-seed wobble swamps the dose effect: mean
+* **H5 Stochastic**: seed-to-seed wobble swamps the dose effect: mean
   within-cell CV across seeds exceeds mean between-cell CV across doses.
 
 If more than one fires, or none does cleanly, we say "Mixed" and point back to

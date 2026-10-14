@@ -7,7 +7,7 @@ embedded verb surface as the matrix subject:
      ^^^^^^^^^^^    ^^ ^^^^    ^^^^^
      subject       BE  ADJ to  VERB
 
-The subject ("the painting") is understood as what gets admired — there's a gap
+The subject ("the painting") is understood as what gets admired, there's a gap
 after the embedded verb. This is a textbook poverty-of-stimulus case: the
 dependency is long-distance yet acquired early. We don't try to verify the gap
 syntactically (that's brittle); instead we match the reliable surface frame
@@ -21,7 +21,7 @@ from __future__ import annotations
 
 from .base import FilterMatch, words
 
-# The adjectives that license tough-movement. It's a closed-ish class — these
+# The adjectives that license tough-movement. It's a closed-ish class, these
 # are the ones that take a "to"-infinitive with a subject-as-object reading.
 # Lemmas, so inflection ("easier") collapses to the base form.
 TOUGH_ADJECTIVES = frozenset(

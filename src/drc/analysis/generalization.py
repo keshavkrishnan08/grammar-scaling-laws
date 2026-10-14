@@ -1,14 +1,14 @@
 """Memorization vs. generalization: does the construction curve rise on *novel* fillers?
 
-This is the quantitative read on H3 — the paper's claim that grammar can come by
+This is the quantitative read on H3: the paper's claim that grammar can come by
 two routes, one that memorises the lexical material it saw and one that
 generalises the abstract pattern. We never train anything new here. We reuse the
 already-scored minimal pairs and split each construction's *own* test items into
 two buckets:
 
-* **seen** — the item's grammatical sentence shares at least one content word
+* **seen**: the item's grammatical sentence shares at least one content word
   with some construction instance that survived into this dose corpus.
-* **novel** — it shares nothing. The model never saw these particular words
+* **novel**: it shares nothing. The model never saw these particular words
   *inside the construction* at this dose.
 
 Then we fit/plot the dose-response curve separately for each bucket. The logic is
@@ -22,7 +22,7 @@ compare lowercased content-token sets and call an item "seen" on a single shared
 content word. That over-counts overlap (a shared "dog" between two otherwise
 unrelated sentences still flags "seen"), so the seen/novel gap here is a lower
 bound on the real memorization signal, not a precise measurement. Dose 0 keeps no
-instances, so every item is novel by construction — a useful sanity anchor.
+instances, so every item is novel by construction, a useful sanity anchor.
 
 CLI::
 
@@ -60,7 +60,7 @@ GROUP_NOVEL = "novel"
 _WORD_RE = re.compile(r"[a-z]+(?:'[a-z]+)?")
 
 # A short, deliberately boring stopword list. The point is to drop function words
-# so overlap is judged on *content* — nouns, verbs, adjectives — not on the "the"
+# so overlap is judged on *content*: nouns, verbs, adjectives, not on the "the"
 # and "is" that every English sentence shares. We keep it small and explicit
 # rather than pulling in a tagger; the filters already establish the construction,
 # so we only need a rough content/function cut here.
@@ -85,7 +85,7 @@ def content_tokens(sentence: str) -> set[str]:
     """Lowercased content tokens of a sentence: word-ish runs minus stopwords.
 
     This is the unit of comparison for the overlap test. It's intentionally
-    crude — no lemmatiser, no POS tagger — because the dose corpus already
+    crude: no lemmatiser, no POS tagger, because the dose corpus already
     pinned down which sentences carry the construction. All we need here is a
     fast, deterministic content/function split.
     """
@@ -95,8 +95,8 @@ def content_tokens(sentence: str) -> set[str]:
 def kept_instance_vocab(conllu_path: Path) -> set[str]:
     """Pooled content vocabulary of every instance kept in a dose corpus.
 
-    We read the ``# text =`` headers via the parser's metadata reader — the same
-    text the model actually trained on — and union their content tokens. An
+    We read the ``# text =`` headers via the parser's metadata reader, the same
+    text the model actually trained on: and union their content tokens. An
     empty corpus (or a missing file the caller has already vetted) yields an
     empty set, which makes every item "novel". That's the correct behaviour for
     dose 0.
@@ -133,7 +133,7 @@ def classify_items(
 
     Expects ``per_item`` already narrowed to one (construction, dose, seed) cell
     and to self-evaluation rows (eval == model construction). Needs a column the
-    caller supplies — ``good_sentence`` — to read the lexical material from; the
+    caller supplies: ``good_sentence``, to read the lexical material from; the
     raw per-item CSV doesn't carry sentences, so the runner joins them back in
     from the eval_items files before calling here. Returns a copy with a new
     ``group`` column.
@@ -154,7 +154,7 @@ def aggregate(labelled: pd.DataFrame) -> pd.DataFrame:
     """Collapse labelled per-item rows to per-(construction, dose, group) accuracy.
 
     Accuracy is the mean of ``correct`` over every item in the group, pooled
-    across seeds — each seed contributes its items, so a group's n_items is the
+    across seeds: each seed contributes its items, so a group's n_items is the
     seed-summed item count. The standard error is the binomial proportion error
     over that pooled n. We keep both seen and novel groups for every dose even
     when one is empty, emitting an explicit zero-n row, so the figure has a
@@ -199,7 +199,7 @@ def build_generalization_table(
 
     Split out from :func:`run` so a test can call it on synthetic inputs without
     a config. ``dose_corpus_for(construction, dose)`` is a callback returning the
-    .conllu path for a cell — the test hands it a tmp-dir lookup, the CLI hands
+    .conllu path for a cell: the test hands it a tmp-dir lookup, the CLI hands
     it the real config-resolved path. We cache each cell's kept vocabulary so we
     read a dose corpus once, not once per seed.
 
@@ -216,7 +216,7 @@ def build_generalization_table(
         )
 
     per_item = pd.read_csv(per_item_csv)
-    # Self-eval only — the seen/novel split is about a construction's own pairs.
+    # Self-eval only: the seen/novel split is about a construction's own pairs.
     per_item = per_item[
         per_item["model_construction"] == per_item["eval_construction"]
     ].copy()
@@ -227,7 +227,7 @@ def build_generalization_table(
         )
 
     # Join the good sentences back in by (construction, item_id). The per-item
-    # CSV stays lean — just ids and scores — so we re-read the sentences here.
+    # CSV stays lean: just ids and scores, so we re-read the sentences here.
     sentences = _load_eval_sentences(eval_items_root, per_item)
     per_item = per_item.merge(
         sentences, on=["eval_construction", "item_id"], how="left"
@@ -305,7 +305,7 @@ def _load_eval_sentences(
 def fig8_generalization(table: pd.DataFrame, out_path: Path) -> None:
     """2x2 panel: seen vs. novel dose-response per construction, gap shaded.
 
-    Reuses the figures.py Okabe-Ito look — construction colour for the seen line,
+    Reuses the figures.py Okabe-Ito look: construction colour for the seen line,
     a muted grey-blue for novel, the gap between them shaded so the eye lands on
     it. x is ``log10(dose + 1)`` like every other dose figure. A novel line that
     climbs is generalization; a flat novel line under a rising seen line is
@@ -321,7 +321,7 @@ def fig8_generalization(table: pd.DataFrame, out_path: Path) -> None:
     )
 
     # Map the literal doses to plot positions. "all" can't go on a log axis as a
-    # word, so we place it one step past the largest numeric dose — purely for
+    # word, so we place it one step past the largest numeric dose, purely for
     # ordering; the tick is labelled "all".
     def _dose_x(values: list) -> tuple[list[float], list[str]]:
         numeric = sorted({float(v) for v in values if str(v).lower() != "all"})

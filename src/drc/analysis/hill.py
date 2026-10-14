@@ -6,12 +6,12 @@ exposures in pretraining" and "response" for "minimal-pair accuracy" and you get
 
     Y(D) = E0 + (Emax - E0) * D^n / (E50^n + D^n)
 
-with four readable parameters. ``E0`` is the floor — what the model scores with
+with four readable parameters. ``E0`` is the floor, what the model scores with
 zero exposure (pure indirect evidence). ``Emax`` is the ceiling it saturates at.
 ``E50`` is the dose that gets you halfway up, an interpretable "how much data does
 this construction need" number. And ``n``, the Hill coefficient, is the shape
 knob: near 1 the curve is a gentle saturating rise, much larger than that and it
-sharpens into a step — the signature we'd call a phase transition.
+sharpens into a step: the signature we'd call a phase transition.
 
 We fit one curve per (construction, seed) so seed-to-seed spread becomes a real
 distribution, not a footnote. Confidence intervals come from a parametric
@@ -138,7 +138,7 @@ def resolve_dose_values(
 
     Every other dose is already numeric. ``"all"`` means "every instance we
     found in the corpus", and the actual number differs per construction, so we
-    look it up — from ``results/dose_corpora_sanity.json`` when it's there, and
+    look it up: from ``results/dose_corpora_sanity.json`` when it's there, and
     from the documented fallback table when it isn't.
     """
     import numpy as np
@@ -186,7 +186,7 @@ def _r_squared(Y: np.ndarray, Y_hat: np.ndarray) -> float:
 
     ss_res = float(np.sum((Y - Y_hat) ** 2))
     ss_tot = float(np.sum((Y - Y.mean()) ** 2))
-    if ss_tot <= 0:  # flat target — R^2 is undefined, report 0
+    if ss_tot <= 0:  # flat target: R^2 is undefined, report 0
         return 0.0
     return 1.0 - ss_res / ss_tot
 
@@ -197,7 +197,7 @@ def fit_one(
     """Fit one Hill curve and bootstrap its parameter CIs.
 
     Returns a flat dict ready to become one CSV row. ``converged`` is False when
-    the optimiser raises rather than crashing the whole sweep — one bad cell
+    the optimiser raises rather than crashing the whole sweep, one bad cell
     shouldn't lose you the other fifty-nine.
     """
     import numpy as np

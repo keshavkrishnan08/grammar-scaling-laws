@@ -1,6 +1,6 @@
 """Fetch the BabyLM corpora and write them out as plain text.
 
-We pull two things. First, the BabyLM strict-small set (~10M words) — that's the
+We pull two things. First, the BabyLM strict-small set (~10M words), that's the
 corpus every model trains on. Second, a slice of the larger strict set (~100M
 words) that we keep as a replacement pool: when ``dose_corpora`` removes a
 construction's positive sentences, it backfills with length- and domain-matched
@@ -10,7 +10,7 @@ How the data is shaped (verified against the official release): BabyLM ships as
 **one plain-text file per source domain**, named ``<domain>.train.txt`` (e.g.
 ``childes.train.txt``, ``open_subtitles.train.txt``). The filename *is* the
 domain label, which is exactly what dose replacement needs. So we don't go
-through ``datasets.load_dataset`` and its custom loading script — that path is
+through ``datasets.load_dataset`` and its custom loading script, that path is
 brittle on modern ``datasets`` versions. Instead we grab the raw files straight
 from the Hub with ``huggingface_hub`` and tag each line with the domain taken
 from its filename.
@@ -18,7 +18,7 @@ from its filename.
 The repo ids are constants (overridable in the config under a ``data:`` block).
 BabyLM re-releases every year and the org/repo names shift, so when an id goes
 stale you change it in one place. The official data is linked from
-https://babylm.github.io — if a repo 404s, check there for the current edition.
+https://babylm.github.io: if a repo 404s, check there for the current edition.
 If a download fails we raise loudly rather than quietly writing an empty file; a
 silently truncated corpus would poison every downstream run.
 
@@ -81,7 +81,7 @@ def resolve_path(config_path: Path, rel: str) -> Path:
 
     Paths in ``base.yaml`` are written relative to the repo root (e.g.
     ``data/raw/babylm_10M.txt``). We anchor them to the config file's parent's
-    parent — ``configs/base.yaml`` lives one level below the root — so the CLI
+    parent: ``configs/base.yaml`` lives one level below the root, so the CLI
     works no matter which directory you launch it from.
     """
     root = config_path.resolve().parent.parent

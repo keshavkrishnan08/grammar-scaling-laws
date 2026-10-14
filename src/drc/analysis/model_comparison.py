@@ -5,16 +5,16 @@ in log-dose, or a single step, or pure noise around a mean. So we fit each
 candidate to the same (construction, seed) cells and rank them by information
 criterion. The candidates:
 
-* **hill** — the four-parameter curve from ``hill.py``, the hypothesis of interest.
-* **power** — ``a*(D+1)^b + c``, a scale-free rise with no saturation.
-* **step** — flat low, jump, flat high. The crudest "threshold" model; if a real
+* **hill**: the four-parameter curve from ``hill.py``, the hypothesis of interest.
+* **power**: ``a*(D+1)^b + c``, a scale-free rise with no saturation.
+* **step**: flat low, jump, flat high. The crudest "threshold" model; if a real
   phase transition exists, step should be competitive with Hill.
-* **log-linear** — ``a + b*log(D+1)``, the boring "more data helps, smoothly" story.
-* **null** — the mean. The floor every other model has to beat to earn its parameters.
+* **log-linear**: ``a + b*log(D+1)``, the boring "more data helps, smoothly" story.
+* **null**: the mean. The floor every other model has to beat to earn its parameters.
 
 We score with Gaussian log-likelihood (residual sum of squares under a fitted
 noise variance), then AIC and BIC with the right parameter counts. Lower wins.
-The point isn't to crown Hill — it's to give the decision rule honest evidence,
+The point isn't to crown Hill: it's to give the decision rule honest evidence,
 including the chance that something simpler explains the curves just as well.
 
 CLI::
@@ -88,7 +88,7 @@ def _gaussian_loglik(Y: np.ndarray, Y_hat: np.ndarray) -> float:
 
     n = Y.size
     rss = float(np.sum((Y - Y_hat) ** 2))
-    if rss <= 0:  # perfect fit — nudge so the log stays finite
+    if rss <= 0:  # perfect fit: nudge so the log stays finite
         rss = 1e-12
     sigma2 = rss / n
     return -0.5 * n * (np.log(2.0 * np.pi * sigma2) + 1.0)
@@ -105,7 +105,7 @@ def fit_models(D: np.ndarray, Y: np.ndarray) -> list[dict[str, Any]]:
     """Fit all five candidates to one cell and score each.
 
     Free-parameter counts include the noise variance, since that's estimated
-    too — keeping AIC/BIC honest across models with different shapes.
+    too: keeping AIC/BIC honest across models with different shapes.
     """
     import numpy as np
 

@@ -10,7 +10,7 @@ then divide by length so long and short sentences land on the same scale:
 For a masked LM there's no left-to-right log P(s), so we use the
 *pseudo*-log-likelihood (Salazar et al. 2020): mask each token in turn, ask the
 model for the log-probability of the true token given everything else, and sum.
-That's |s| forward passes per sentence, which is the slow part — so we batch
+That's |s| forward passes per sentence, which is the slow part, so we batch
 them, stacking one masked copy per position into a single forward call.
 
 Everything torch/transformers gets imported lazily inside the functions, so the
@@ -40,7 +40,7 @@ DEFAULT_MASK_BATCH_SIZE = 64
 _OOV_FLOOR_COUNT = 1
 
 # Crude word tokeniser for the unigram side. We lowercase and keep word-ish runs
-# only — the unigram baseline is a normaliser, not a model, so it doesn't need
+# only: the unigram baseline is a normaliser, not a model, so it doesn't need
 # the LM's subword vocabulary. Matching that vocabulary would actually defeat
 # the purpose: we want a corpus-frequency correction, not a second LM.
 _WORD_RE = re.compile(r"[a-z]+(?:'[a-z]+)?")
@@ -119,7 +119,7 @@ def pseudo_log_likelihood(
 
     We build all the masked copies up front and push them through in batches,
     which turns |s| separate forward passes into a handful. Special tokens (CLS,
-    SEP, pad) are never masked and never scored — only real content positions
+    SEP, pad) are never masked and never scored, only real content positions
     contribute.
     """
     import torch

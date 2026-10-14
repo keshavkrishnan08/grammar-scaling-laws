@@ -7,7 +7,7 @@ object ends up in:
         ^^^^^^^^ ^^^^^^^^^ ^^^^
         VERB     obj       result AP
 
-The metal becomes flat by way of the hammering — the adjective isn't an argument
+The metal becomes flat by way of the hammering, the adjective isn't an argument
 of the verb on its own, it's the construction supplying a result slot. In a
 dependency parse that shows up cleanly: the verb governs both an ``obj`` and an
 ``xcomp`` that's an adjective. We test exactly that, which avoids the noise of
@@ -28,7 +28,7 @@ class ResultativeFilter:
     Iterate over verbs, gather each verb's dependents, and require the two arcs
     that define the construction: an ``obj`` (the affected NP) and an ``xcomp``
     that's an ``ADJ`` (the result state). Both hanging off the same verb is the
-    structural signature — a predicative adjective elsewhere won't qualify.
+    structural signature: a predicative adjective elsewhere won't qualify.
     """
 
     code = "resultative"
@@ -46,7 +46,7 @@ class ResultativeFilter:
 
             obj = next((w for w in children if w.deprel == "obj"), None)
             # The result AP attaches as an open clausal complement (xcomp) and is
-            # an adjective — that pairing is what marks the resultative.
+            # an adjective: that pairing is what marks the resultative.
             result = next(
                 (w for w in children if w.deprel == "xcomp" and w.upos == "ADJ"),
                 None,

@@ -1,6 +1,6 @@
 """Tests for the pure-Python interpolated 4-gram baseline LM.
 
-No torch needed — this model is plain counting and arithmetic.
+No torch needed: this model is plain counting and arithmetic.
 """
 
 from __future__ import annotations

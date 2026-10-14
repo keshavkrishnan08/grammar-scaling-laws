@@ -14,7 +14,7 @@ number we keep. The diagonal (``C == C'``) is the familiar on-target
 dose-response slope; everything off it is transfer.
 
 We log-transform the dose because the doses are logarithmically spaced (0, 4,
-16, 64, all) — a straight line in raw dose would be dominated by the top end.
+16, 64, all): a straight line in raw dose would be dominated by the top end.
 The ``+1`` keeps dose 0 finite. We resolve ``"all"`` to the construction's
 attested count the same way ``hill.py`` does, so the x-axis is consistent with
 the curve fits.
@@ -143,7 +143,7 @@ def fig7_transfer_matrix(slopes: pd.DataFrame, out_path: Path) -> None:
     """4x4 heatmap of transfer slopes, diverging map centred at zero.
 
     Rows are the trained-on construction, columns the evaluated-on one. The
-    diagonal — the on-target dose-response — is boxed so it reads apart from the
+    diagonal: the on-target dose-response, is boxed so it reads apart from the
     collateral cells. Colour runs blue-white-red through zero (RdBu_r), so a
     slope of zero is white: no movement, no colour. Cells are annotated with the
     slope value.

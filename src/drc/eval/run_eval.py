@@ -2,7 +2,7 @@
 
 This is the main evaluation driver. For each of the 60 runs (4 constructions x
 5 doses x 3 seeds) we load the checkpoint and score it against *all four*
-construction test sets — not just its own. Cross-construction scoring is the
+construction test sets: not just its own. Cross-construction scoring is the
 point: if dosing a model on AANN also moves its tough-movement accuracy, that's
 a collateral effect we want to see, not hide.
 
@@ -15,7 +15,7 @@ midway through a long sweep loses at most the row in flight. Re-running skips
 any (model, eval-construction) pair already in the CSV, so it resumes cleanly.
 
 The unigram correction inside SLOR is built from each model's *own* dose corpus
-— the corpus it actually trained on — so the normaliser matches the model's
+: the corpus it actually trained on, so the normaliser matches the model's
 word-frequency world.
 
 CLI::
@@ -56,7 +56,7 @@ CSV_FIELDS = (
 # Columns in results/eval_per_item.csv. This is the additive, per-minimal-pair
 # log that the memorization-vs-generalization analysis reads. It records the two
 # raw SLOR scores so a downstream analysis can re-derive correctness or do
-# anything else with the margins — the aggregate CSV throws those away.
+# anything else with the margins: the aggregate CSV throws those away.
 PER_ITEM_FIELDS = (
     "model_construction",
     "dose",
@@ -70,7 +70,7 @@ PER_ITEM_FIELDS = (
 
 # Pilot sanity band: the AANN model trained on the full dose at seed 42 should
 # replicate Misra & Mahowald (2024) on AANN items. Outside this and something's
-# off — we warn rather than crash, since a single odd run shouldn't kill a sweep.
+# off: we warn rather than crash, since a single odd run shouldn't kill a sweep.
 SANITY_MODEL = ("aann", "all", 42)
 SANITY_CONSTRUCTION = "aann"
 SANITY_ACC_RANGE = (0.55, 0.75)
@@ -126,7 +126,7 @@ _RUN_RE = re.compile(
 
 
 def _looks_like_checkpoint(path: Path) -> bool:
-    """A directory holding HF weights — config plus a weights file."""
+    """A directory holding HF weights: config plus a weights file."""
     if not (path / "config.json").exists():
         return False
     return any(
@@ -238,7 +238,7 @@ def _load_model_and_tokenizer(run: ModelRun, tokenizer_path: Path):
 def _load_existing_keys(csv_path: Path) -> set[tuple[str, str, str, str]]:
     """Keys already scored, so a resumed run skips them.
 
-    The key is (model_construction, dose, seed, eval_construction) as strings —
+    The key is (model_construction, dose, seed, eval_construction) as strings, 
     everything that uniquely identifies a row.
     """
     done: set[tuple[str, str, str, str]] = set()
@@ -271,7 +271,7 @@ def _append_per_item_rows(csv_path: Path, rows: list[dict[str, Any]]) -> None:
 
     We write a whole (model, eval-construction) block at once rather than row by
     row. That keeps the per-item file's resume granularity identical to the
-    aggregate's — a block is present in both files or in neither — so the two
+    aggregate's: a block is present in both files or in neither, so the two
     never drift out of sync after a crash. The header is the PER_ITEM_FIELDS
     constant so the writer and any reader agree on column order.
     """
@@ -294,7 +294,7 @@ def _per_item_rows(
     """Turn (item_id, slor_good, slor_bad) triples into per-item CSV rows.
 
     Pulled out as its own pure function so a test can exercise the row shape
-    without torch in the room — feed it mock SLOR values and check the columns.
+    without torch in the room: feed it mock SLOR values and check the columns.
     ``correct`` mirrors the aggregate rule exactly: strictly good > bad.
     """
     rows: list[dict[str, Any]] = []
@@ -326,13 +326,13 @@ def evaluate_pair_set(
     """Score one model on one construction's pairs.
 
     Returns ``(n_pairs, n_correct, scored)`` where ``scored`` is one
-    ``(item_id, slor_good, slor_bad)`` triple per pair. The triples come free —
+    ``(item_id, slor_good, slor_bad)`` triple per pair. The triples come free, 
     they're the exact same two forward passes the accuracy count already does,
     just recorded instead of discarded. The aggregate caller ignores them; the
     per-item writer keeps them.
 
     Correct means the grammatical sentence wins on SLOR. Ties (exactly equal
-    scores) count as wrong — we want strictly better, and exact ties almost
+    scores) count as wrong: we want strictly better, and exact ties almost
     never happen with float SLOR anyway.
     """
     from drc.eval.slor import slor
@@ -399,7 +399,7 @@ def run(
                     len(runs), only_construction)
 
     done = _load_existing_keys(csv_path)
-    # Cache unigram counts per (construction, dose) — every seed shares a corpus.
+    # Cache unigram counts per (construction, dose), every seed shares a corpus.
     unigram_cache: dict[tuple[str, str], Any] = {}
 
     for run_info in runs:

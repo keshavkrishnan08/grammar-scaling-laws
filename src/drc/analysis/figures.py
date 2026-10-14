@@ -3,7 +3,7 @@
 Nothing here is hand-drawn or hard-coded. Each figure reads the eval table (and,
 where relevant, the Hill fits and n-gram baseline) and renders to PDF, so a
 regenerated sweep produces regenerated figures with zero manual edits. If an
-input CSV is missing we raise loudly — a figure built on absent data would be
+input CSV is missing we raise loudly: a figure built on absent data would be
 worse than no figure.
 
 Style is deliberately spare: the Okabe-Ito colorblind-safe palette, top and
@@ -13,7 +13,7 @@ and friendly to reviewers who can't distinguish red from green.
 The five figures:
 
 1. dose-response curves (2x2): per-seed lines, the mean, a bootstrap ribbon, and
-   the fitted Hill overlay — the paper's centrepiece.
+   the fitted Hill overlay: the paper's centrepiece.
 2. parameter clusters: E0/E50/n scattered, colour by construction, marker by seed.
 3. seed variance: a construction-by-dose heatmap of CV across seeds.
 4. n-gram comparison (2x2): the neural LM against the 4-gram control.
@@ -290,7 +290,7 @@ def fig4_ngram_comparison(
 def fig5_collateral_effects(eval_df_full: pd.DataFrame, out_path: Path) -> None:
     """4x4 heatmap: train construction (rows) vs eval construction (cols), mean acc.
 
-    The off-diagonal is the interesting part — does training on one construction
+    The off-diagonal is the interesting part: does training on one construction
     drag a model's score on a different one? That's collateral learning, and it
     needs the full cross-eval table, not just the self-eval rows.
     """

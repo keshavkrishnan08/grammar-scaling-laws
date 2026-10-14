@@ -29,7 +29,7 @@ class AANNFilter:
     The construction is rare but fully productive, so we lean on POS tags and a
     single dependency check rather than a word list. Numerals come in both word
     ("five") and digit ("5") form; Stanza tags both as ``NUM``, so we accept
-    either — "a 5 minute walk" sits at the edge of the pattern but we keep it
+    either: "a 5 minute walk" sits at the edge of the pattern but we keep it
     whenever the NUM slot is genuinely filled.
     """
 
@@ -49,7 +49,7 @@ class AANNFilter:
                 continue
 
             # Slot 1: a prenominal adjective. Without it the article can't reach
-            # over the plural — *"a five days" is out.
+            # over the plural: *"a five days" is out.
             if t1.upos != "ADJ":
                 continue
 
@@ -59,7 +59,7 @@ class AANNFilter:
                 continue
 
             # Slot 3: the head noun, and it must be plural. That plurality is the
-            # whole point — a singular noun here is just an ordinary NP.
+            # whole point: a singular noun here is just an ordinary NP.
             if t3.upos != "NOUN" or feats_get(t3, "Number") != "Plur":
                 continue
 

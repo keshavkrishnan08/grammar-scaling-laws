@@ -3,7 +3,7 @@
 If every construction climbs its dose-response curve with roughly the same
 shape, the Hill parameters should huddle together and k-means won't find clean
 groups. But if some constructions need a sharp threshold while others rise
-gently, the parameter vectors should split — and a high silhouette at k=2 is the
+gently, the parameter vectors should split, and a high silhouette at k=2 is the
 quantitative tell. That's the "two routes to grammar" hypothesis (H3), tested
 without us hand-picking the routes.
 
@@ -45,7 +45,7 @@ K_VALUES = (2, 3, 4)
 def build_features(hill_fits: pd.DataFrame) -> pd.DataFrame:
     """Turn converged Hill fits into the clustering feature table.
 
-    Drops non-converged rows up front — a failed fit has no meaningful
+    Drops non-converged rows up front: a failed fit has no meaningful
     parameters to cluster on, and silently feeding NaNs to k-means would either
     crash or, worse, get imputed away.
     """

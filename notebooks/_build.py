@@ -1,7 +1,7 @@
 """Generate the four Kaggle dual-T4 notebooks for the DRC pipeline.
 
 This is the single source of truth for the notebooks. The ``.ipynb`` files in
-this directory are *build artifacts* — never hand-edit them. Change the cell
+this directory are *build artifacts*: never hand-edit them. Change the cell
 text here, re-run ``python notebooks/_build.py``, and the JSON is regenerated.
 
 Why a generator instead of editing JSON by hand? Four notebooks share almost
@@ -10,7 +10,7 @@ Factoring that shared text into Python functions keeps the four files honest
 with each other: fix a bug in the setup cell once and every notebook gets it.
 
 Each notebook is built on top of the fault-tolerant runner in
-``drc.pipeline`` — we do not reinvent orchestration here. The notebooks just
+``drc.pipeline``: we do not reinvent orchestration here. The notebooks just
 make the repo importable on Kaggle, restore any prior artifacts so already-done
 stages resume as skipped, detect the GPU count, and call ``run_pipeline``.
 
@@ -26,12 +26,12 @@ from pathlib import Path
 
 NOTEBOOKS_DIR = Path(__file__).resolve().parent
 
-# The working directory on Kaggle. Everything — the cloned/installed repo, the
-# config's relative paths, and all stage outputs — lives under here.
+# The working directory on Kaggle. Everything, the cloned/installed repo, the
+# config's relative paths, and all stage outputs, lives under here.
 WORK_DIR = "/kaggle/working/EMNLP"
 
 # Default clone URL baked into the notebooks. HTTPS (not SSH) because Kaggle has
-# no SSH deploy key — HTTPS clones a PUBLIC repo with no auth. If the repo is
+# no SSH deploy key: HTTPS clones a PUBLIC repo with no auth. If the repo is
 # private, either make it public, upload it as a Kaggle dataset (the setup cell
 # finds it under /kaggle/input automatically), or put a token in the URL.
 REPO_URL = "https://github.com/keshavkrishnan08/EMNLP.git"
@@ -364,7 +364,7 @@ def deps_code(packages: list[str]) -> dict:
 
     Deliberately its own cell rather than buried in the setup logic: that way the
     install can't be skipped by a branch, you can see exactly what's installed,
-    and you can add a package by editing one obvious list. Idempotent — pip skips
+    and you can add a package by editing one obvious list. Idempotent, pip skips
     anything already present.
     """
     pkgs = " ".join(packages)
@@ -398,7 +398,7 @@ def run_code(only_expr: str, only_human: str, config_path: str = "configs/base.y
     """The cell that actually calls the pipeline runner.
 
     ``config_path`` selects the config (the smoke notebook passes a tiny one).
-    Output locations are read from that config, so they're never hard-coded — the
+    Output locations are read from that config, so they're never hard-coded, the
     later cells reuse ``CONFIG_PATH`` to find the right results directory.
     """
     return code(
@@ -598,7 +598,7 @@ def build_notebook(cells: list[dict]) -> dict:
 def _assign_cell_ids(cells: list[dict]) -> None:
     """Give each cell a stable `id` (required by nbformat 4.5+).
 
-    Deterministic — derived from the cell's index and source — so re-running the
+    Deterministic: derived from the cell's index and source, so re-running the
     generator produces byte-identical ids and clean diffs.
     """
     for i, cell in enumerate(cells):
@@ -620,7 +620,7 @@ def write_notebook(path: Path, cells: list[dict]) -> None:
         with open(path, "w", encoding="utf-8") as fh:
             nbformat.write(nb_obj, fh)
     except ImportError:
-        # Hand-rolled v4 JSON — still valid, just not validated.
+        # Hand-rolled v4 JSON: still valid, just not validated.
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(nb, fh, indent=1)
             fh.write("\n")
@@ -661,11 +661,11 @@ def make_run_all() -> list[dict]:
     ]
 
 
-# Session 1 — the long pole: data prep through the 63-model training sweep.
+# Session 1: the long pole: data prep through the 63-model training sweep.
 _DATA_TRAIN_STAGES = [
     "download", "parse", "audit", "dose", "tokenizer", "train",
 ]
-# Session 2 — evaluation + all analysis + figures (reads session 1's models).
+# Session 2: evaluation + all analysis + figures (reads session 1's models).
 _EVAL_ANALYSIS_STAGES = [
     "eval", "ngram", "hill", "model_comparison", "clustering", "transfer",
     "predictability", "generalization", "indirect_evidence", "decision", "figures",
@@ -693,7 +693,7 @@ def make_data_train() -> list[dict]:
             extras_comment=_TRAIN_COMMENT,
         ),
         deps_code(["stanza"]),
-        # First notebook of the chain — usually nothing to restore, but the cell
+        # First notebook of the chain: usually nothing to restore, but the cell
         # lets a re-run after a partial pass merge cleanly.
         restore_code(),
         gpu_detect_code(),

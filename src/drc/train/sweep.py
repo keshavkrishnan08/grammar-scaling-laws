@@ -1,6 +1,6 @@
 """Run the whole grid: every construction x dose x seed.
 
-That's 4 x 5 x 3 = 60 models. This module is the conductor, not the orchestra —
+That's 4 x 5 x 3 = 60 models. This module is the conductor, not the orchestra, 
 it never trains anything itself. Each run is launched as a fresh
 ``python -m drc.train.train`` subprocess, which buys two things: a crash or a NaN
 abort in one run can't take down the sweep, and the per-run determinism in
@@ -87,7 +87,7 @@ def is_done(config: dict[str, Any], config_path: Path, run: tuple[str, Any, int]
             json.load(fh)
         return True
     except (json.JSONDecodeError, OSError):
-        # A truncated metrics file means the run died mid-write — redo it.
+        # A truncated metrics file means the run died mid-write, redo it.
         return False
 
 
@@ -144,7 +144,7 @@ def run_pilot(config_path: Path, config: dict[str, Any]) -> bool:
     """Train the pilot and check its perplexity against the config gate.
 
     Returns ``True`` if the pilot passes (or was already done and passing).
-    Trains in-process — there's only one, and we want its exception, if any, to
+    Trains in-process: there's only one, and we want its exception, if any, to
     surface here rather than in a detached subprocess.
     """
     from .train import train_one
