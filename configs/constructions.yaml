@@ -1,7 +1,7 @@
 # Per-construction metadata: the four targets plus their expected attested
 # counts in BabyLM-10M and where their evaluation items come from. The counts
 # are sanity bounds for the QA audit (Subagent A acceptance test), not hard
-# requirements — the actual attested count for dose="all" is read from the
+# requirements: the actual attested count for dose="all" is read from the
 # corpus at generation time.
 
 aann:

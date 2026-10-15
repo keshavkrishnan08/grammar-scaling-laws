@@ -417,7 +417,7 @@ def run(config_path: Path, force: bool = False, use_gpu: bool | None = None) -> 
     else:
         logger.warning(
             "Replacement pool %s not found; skipping its parse. Dose generation "
-            "needs it — run the download without --skip-pool, then re-run parse.",
+            "needs it, run the download without --skip-pool, then re-run parse.",
             pool_raw,
         )
 

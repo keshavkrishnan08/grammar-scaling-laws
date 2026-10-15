@@ -171,7 +171,7 @@ def sanity_check(
     actual_vocab = tok.vocab_size
     if actual_vocab > vocab_size:
         raise AssertionError(
-            f"Vocab size {actual_vocab} exceeds the target {vocab_size} — "
+            f"Vocab size {actual_vocab} exceeds the target {vocab_size},"
             "model embeddings would be too small."
         )
     if actual_vocab < vocab_size:

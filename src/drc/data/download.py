@@ -133,7 +133,7 @@ def _download_train_files(repo_id: str) -> list[Path]:
         raise RuntimeError(
             f"Failed to download '{repo_id}' from the Hugging Face Hub. "
             "Check the repo id (see the constants in download.py or the `data:` "
-            "block in your config) — the current edition is linked from "
+            "block in your config), the current edition is linked from "
             f"https://babylm.github.io. Original error: {type(exc).__name__}: {exc}"
         ) from exc
 

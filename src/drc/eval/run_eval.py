@@ -410,7 +410,7 @@ def run(
             not in done
         ]
         if not pending:
-            logger.info("Already done: %s dose=%s seed=%d — skipping.",
+            logger.info("Already done: %s dose=%s seed=%d, skipping.",
                         run_info.construction, run_info.dose, run_info.seed)
             continue
 

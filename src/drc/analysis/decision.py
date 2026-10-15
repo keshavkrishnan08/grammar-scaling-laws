@@ -168,7 +168,7 @@ def render(stats: dict[str, Any]) -> str:
     lines.append("")
     lines.append(
         "NOTE: every number below is computed from the fitted curves and raw "
-        "eval CSVs. Nothing here is predetermined — the hypothesis that fires "
+        "eval CSVs. Nothing here is predetermined, the hypothesis that fires "
         "is whatever the data supports under the rules we locked in advance."
     )
     lines.append("")
@@ -192,10 +192,10 @@ def render(stats: dict[str, Any]) -> str:
         lines.append(f"  Recommended title: {TITLES[h]}")
     elif len(fired) == 0:
         lines.append("  Hypothesis fired : none cleanly")
-        lines.append("  Recommended title: Mixed — see Outcome Matrix")
+        lines.append("  Recommended title: Mixed, see Outcome Matrix")
     else:
         lines.append(f"  Hypotheses fired : {', '.join(fired)} (more than one)")
-        lines.append("  Recommended title: Mixed — see Outcome Matrix")
+        lines.append("  Recommended title: Mixed, see Outcome Matrix")
         lines.append("  Candidate titles for the ones that fired:")
         for h in fired:
             lines.append(f"    {h}: {TITLES[h]}")

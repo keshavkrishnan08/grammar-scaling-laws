@@ -161,7 +161,7 @@ def run_pipeline(
                 already = False
             if already:
                 results[stage.name] = StageResult(stage.name, SKIPPED, detail="already complete")
-                logger.info("[skip] %s — already complete", stage.name)
+                logger.info("[skip] %s, already complete", stage.name)
                 persist()
                 continue
 
@@ -174,11 +174,11 @@ def run_pipeline(
             results[stage.name] = StageResult(
                 stage.name, BLOCKED, detail=f"waiting on: {', '.join(unmet)}"
             )
-            logger.warning("[block] %s — unmet dependencies: %s", stage.name, ", ".join(unmet))
+            logger.warning("[block] %s, unmet dependencies: %s", stage.name, ", ".join(unmet))
             persist()
             continue
 
-        logger.info("[run] %s — %s", stage.name, stage.description or "")
+        logger.info("[run] %s, %s", stage.name, stage.description or "")
         t0 = time.time()
         try:
             stage.action()
@@ -193,7 +193,7 @@ def run_pipeline(
             # A failed stage just means its dependents get blocked; everything
             # independent still runs. The dashboard shows exactly what happened.
             logger.error(
-                "[fail] %s%s — %s; continuing (dependents will be blocked).",
+                "[fail] %s%s, %s; continuing (dependents will be blocked).",
                 tag, stage.name, exc,
             )
             persist()

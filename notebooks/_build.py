@@ -89,7 +89,7 @@ def intro_md(title: str, what: str, only_note: str) -> dict:
 
 **This notebook is resumable.** Every stage runs in its own subprocess via
 `drc.pipeline.run_pipeline`, so a CUDA OOM or a hard kernel crash in one stage
-takes down that subprocess and *nothing else* — the kernel survives, the
+takes down that subprocess and *nothing else* the kernel survives, the
 failure is recorded, and the rest of the pipeline proceeds where it can. If
 Kaggle's 12-hour session limit cuts you off, just **re-run the notebook**:
 finished stages detect their own outputs and skip, so you pick up where you
@@ -103,7 +103,7 @@ stopped instead of redoing hours of work.
   With two cards the training sweep runs two jobs in parallel; with one it falls
   back to a 48-run single-GPU plan.
 - **Precision is automatic.** The trainer picks bf16 on GPUs that support it,
-  fp16 (with a GradScaler) on a T4, and fp32 on CPU — so you don't need to edit
+  fp16 (with a GradScaler) on a T4, and fp32 on CPU, so you don't need to edit
   `configs/base.yaml`, even though it says `bf16`.
 
 ## The notebooks (split for a single-GPU, two-session run)
@@ -111,13 +111,13 @@ stopped instead of redoing hours of work.
 A single-T4 run is ~13-14 h, over Kaggle's 12 h cap, so the work is split so each
 half fits one session:
 
-1. **`kaggle_00_smoke`** — the whole pipeline on a tiny config (~10 min). Run it
+1. **`kaggle_00_smoke`** the whole pipeline on a tiny config (~10 min). Run it
    first to confirm every stage works before the long run.
-2. **`kaggle_01a_data_train`** — session 1 (the long pole): download, parse,
+2. **`kaggle_01a_data_train`** session 1 (the long pole): download, parse,
    audit, dose corpora, tokenizer, and the 63-model training sweep. Ends with a
-   health check on the trained models. If the 12 h cap cuts it off, just re-run —
+   health check on the trained models. If the 12 h cap cuts it off, just re-run,
    finished models are skipped, so it resumes.
-3. **`kaggle_01b_eval_analysis`** — session 2 (~2-3 h): SLOR + n-gram evaluation,
+3. **`kaggle_01b_eval_analysis`** session 2 (~2-3 h): SLOR + n-gram evaluation,
    then all the analysis (Hill fits, E0 index, transfer, predictability,
    generalization, decision) and figures.
 
@@ -127,7 +127,7 @@ Datasets*). The **restore-prior-artifacts** cell copies its `data/`, `models/`,
 and `results/` into the working repo so `01b` finds the trained models.
 (`kaggle_run_all` runs everything in one go, for reference / dual-GPU.)
 
-Nothing here fabricates results. A blocked or failed stage produces no numbers —
+Nothing here fabricates results. A blocked or failed stage produces no numbers,
 it just says so in the dashboard and lets the rest proceed.
 """
     )
@@ -208,7 +208,7 @@ else:
     print(f"Using repo at {{WORK}}")
     # If it's a writable git checkout, pull the latest so code fixes actually land.
     # This is the difference between re-running old buggy code and the current fix.
-    # (Tracked files only — your gitignored data/ models/ results/ are untouched.)
+    # (Tracked files only: your gitignored data/ models/ results/ are untouched.)
     if (WORK / ".git").exists():
         rc = subprocess.call(
             f'git -C "{{WORK}}" fetch --depth 1 origin main '
@@ -217,10 +217,10 @@ else:
         print("Updated checkout to latest origin/main."
               if rc == 0 else "[warn] could not update checkout; using it as-is.")
 
-# Install — ALWAYS, whether we just cloned or found an existing checkout. (This
+# Install: ALWAYS, whether we just cloned or found an existing checkout. (This
 # block is intentionally at top level, not under the else above: a fresh clone
 # must still install its deps.) Editable install registers `drc` and pulls deps;
-# note the extras brackets go INSIDE the quotes — pip install -e "PATH[extra]" —
+# note the extras brackets go INSIDE the quotes: pip install -e "PATH[extra]",
 # or the shell splits off "[extra]" and pip errors.
 installed = False
 if EXTRA:
@@ -252,7 +252,7 @@ if WORK.exists():
     print("cwd:", os.getcwd())
 else:
     print("=" * 70)
-    print(f"[error] {{WORK}} does not exist — the clone FAILED.")
+    print(f"[error] {{WORK}} does not exist, the clone FAILED.")
     print("Almost certainly: Kaggle INTERNET IS OFF for this notebook.")
     print("Fix: Settings (right panel) -> Internet -> ON (needs a phone-verified")
     print("account), then re-run. The pipeline also downloads BabyLM from")
@@ -261,7 +261,7 @@ else:
     print("=" * 70)
 print("drc importable:", _have_drc())
 if not _have_drc():
-    print("[error] `drc` not importable — see the message above (likely no internet).")
+    print("[error] `drc` not importable, see the message above (likely no internet).")
 '''
     )
 
@@ -334,7 +334,7 @@ try:
     print(out.stdout.strip() or "(nvidia-smi returned no GPUs)")
     n_gpus = sum(1 for ln in out.stdout.splitlines() if ln.strip().startswith("GPU "))
 except FileNotFoundError:
-    print("nvidia-smi not found — assuming no GPU (CPU-only).")
+    print("nvidia-smi not found, assuming no GPU (CPU-only).")
 
 SINGLE_GPU = FORCE_SINGLE_GPU or (n_gpus < 2)
 if FORCE_SINGLE_GPU and n_gpus >= 2:
@@ -387,7 +387,7 @@ if PACKAGES:
             __import__(mod)
             print(f"  import {{mod}}: OK")
         except Exception as exc:
-            print(f"  import {{mod}}: FAILED — {{exc}}")
+            print(f"  import {{mod}}: FAILED, {{exc}}")
 else:
     print("No extra packages to install.")
 '''
@@ -407,7 +407,7 @@ def run_code(only_expr: str, only_human: str, config_path: str = "configs/base.y
 # default_phases() returns the wired stages; run_pipeline() isolates failures,
 # skips finished stages, blocks stages with unmet deps, and prints a dashboard.
 # It never raises on a stage failure. We also wrap the whole cell so that even a
-# setup/import problem prints instead of halting — the status cells below still run.
+# setup/import problem prints instead of halting: the status cells below still run.
 import traceback
 from pathlib import Path
 
@@ -458,7 +458,7 @@ try:
             detail = f"  {r['detail']}" if r.get("detail") else ""
             print(f"  {r['status']:<8} {name:<18} {secs}{detail}")
     else:
-        print(f"No {status_path} yet — has the run cell completed?")
+        print(f"No {status_path} yet, has the run cell completed?")
 
     for d in (results_dir, results_dir / "figures"):
         if d.is_dir():
@@ -519,7 +519,7 @@ if manifest.exists():
         problems.append(f"{len(failed)} training run(s) failed: {failed[:5]}...")
         print("  FAILED:", failed)
 else:
-    print("No sweep_manifest.json — training may not have run.")
+    print("No sweep_manifest.json, training may not have run.")
 
 # 2) Held-out perplexities (sanity band [15, 40]).
 ppls = []
@@ -557,9 +557,9 @@ if eval_csv.exists():
     aann_max = emax.get("aann")
     if aann_max is not None and not (0.55 <= aann_max <= 0.75):
         problems.append(f"AANN ceiling {aann_max:.2f} outside the ~[0.55,0.75] "
-                        "replication band — check the eval pipeline.")
+                        "replication band, check the eval pipeline.")
 else:
-    print("\\nNo eval_results.csv yet — eval may not have run.")
+    print("\\nNo eval_results.csv yet, eval may not have run.")
 
 print("\\n" + "=" * 60)
 if problems:
@@ -634,13 +634,13 @@ _TRAIN_COMMENT = "Training needs the ML stack: torch, transformers, accelerate, 
 def make_run_all() -> list[dict]:
     return [
         intro_md(
-            "DRC — Run the whole pipeline (one notebook, resumes across sessions)",
+            "DRC, Run the whole pipeline (one notebook, resumes across sessions)",
             "Every stage end to end (data, training, evaluation, analysis, "
-            "figures) in **one notebook** — no Add Input, no dataset chaining. "
+            "figures) in **one notebook** no Add Input, no dataset chaining. "
             "The trick for going past the 12 h cap on a single T4: turn on "
             "**Persistence** (Settings -> Persistence -> *Files only*). That keeps "
             "`/kaggle/working` between sessions of THIS notebook, so when a session "
-            "ends mid-training you just start a new one and **re-run** — finished "
+            "ends mid-training you just start a new one and **re-run** finished "
             "models and stages are detected and skipped, and it continues until "
             "done. No files to move yourself. (The `01a`/`01b` split is the "
             "alternative if you'd rather not use Persistence.)",
@@ -675,13 +675,13 @@ _EVAL_ANALYSIS_STAGES = [
 def make_data_train() -> list[dict]:
     return [
         intro_md(
-            "DRC 01a — Data + training (session 1, the long run)",
+            "DRC 01a, Data + training (session 1, the long run)",
             "Session 1 of two. Does the expensive, hard-to-redo work: download, "
             "parse, audit, build the dose corpora, train the tokenizer, and run "
             "the **63-model pilot-gated sweep**. On one T4 (set `FORCE_SINGLE_GPU "
             "= True` below) budget ~11-12 h. Each model trains in its own "
             "subprocess and leaves a `metrics.json` when done, so if the 12 h cap "
-            "cuts you off, just **re-run this notebook** — finished models are "
+            "cuts you off, just **re-run this notebook** finished models are "
             "skipped and it resumes. The health-check cell at the end tells you if "
             "training looked sane. When it's green, *Save Version* and feed its "
             "output dataset to `kaggle_01b_eval_analysis`.",
@@ -706,7 +706,7 @@ def make_data_train() -> list[dict]:
 def make_eval_analysis() -> list[dict]:
     return [
         intro_md(
-            "DRC 01b — Evaluation + analysis + figures (session 2)",
+            "DRC 01b, Evaluation + analysis + figures (session 2)",
             "Session 2 of two. Turns the trained models into results: SLOR + "
             "n-gram evaluation, then the Hill fits, E0 indirect-evidence index, "
             "model comparison, clustering, transfer, predictability, "
@@ -714,7 +714,7 @@ def make_eval_analysis() -> list[dict]:
             "(eval needs the GPU; the analysis is CPU). **Attach "
             "`kaggle_01a_data_train`'s output dataset first** (*Add Input -> Your "
             "Datasets*) so the restore cell brings in the trained `models/` and "
-            "the `data/`. Re-running is cheap — eval skips once "
+            "the `data/`. Re-running is cheap, eval skips once "
             "`eval_results.csv` exists, so you can iterate on the analysis.",
             "**Scope:** `only=" + json.dumps(_EVAL_ANALYSIS_STAGES) + "`.",
         ),
@@ -735,9 +735,9 @@ def make_eval_analysis() -> list[dict]:
 def make_smoke() -> list[dict]:
     return [
         intro_md(
-            "DRC — Smoke test (~10 min): verify the pipeline runs on Kaggle",
-            "**Run this first.** It exercises the *entire* pipeline — every stage, "
-            "data through figures — but on a tiny config (`configs/smoke.yaml`): a "
+            "DRC, Smoke test (~10 min): verify the pipeline runs on Kaggle",
+            "**Run this first.** It exercises the *entire* pipeline, every stage, "
+            "data through figures, but on a tiny config (`configs/smoke.yaml`): a "
             "~150k-word slice of the corpus, a small 2-layer model, 1 epoch, 1 "
             "seed, and a handful of doses. It finishes in roughly **10 minutes on "
             "dual-T4** and exists to catch environment/wiring errors *before* you "

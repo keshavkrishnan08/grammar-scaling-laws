@@ -1,6 +1,6 @@
 # Smoke / micro config: run the ENTIRE pipeline tiny, in ~10 minutes, to verify
 # there are no environment or wiring errors on Kaggle BEFORE the ~10-hour real
-# run. Everything here is shrunk — corpus slice, model, epochs, doses, seeds —
+# run. Everything here is shrunk: corpus slice, model, epochs, doses, seeds,
 # and all outputs go to *_smoke directories so this never touches the real run's
 # data/models/results. Used by notebooks/kaggle_00_smoke.ipynb.
 #
@@ -13,8 +13,8 @@ data:
   max_corpus_words: 120000   # tiny slice of the 10M set
   max_pool_words: 50000      # tiny replacement pool
 
-# IDENTICAL design to configs/base.yaml — same 8 constructions, same doses, the
-# shared ceiling — so every code path (all 8 filters, the full core ladder, the
+# IDENTICAL design to configs/base.yaml: same 8 constructions, same doses, the
+# shared ceiling: so every code path (all 8 filters, the full core ladder, the
 # breadth tier) actually runs. The ONLY structural cut is seeds: 1 instead of 3.
 # Everything else that makes this fast lives in `model`/`training`/`data` below
 # (tiny model, 1 epoch, tiny corpus), none of which changes which code runs.
@@ -26,7 +26,7 @@ design:
   seeds: [42]
   shared_full_corpus: true
 
-# A deliberately tiny model — trains in seconds, just enough to run the code.
+# A deliberately tiny model: trains in seconds, just enough to run the code.
 model:
   architecture: ltg-bert-base
   hidden_size: 64
@@ -63,7 +63,7 @@ evaluation:
   pilot_aann_acc_range: [0.0, 1.0]
   perplexity_range: [0.0, 1.0e9]
 
-# Separate output tree — nothing here collides with the real run.
+# Separate output tree: nothing here collides with the real run.
 paths:
   raw_corpus: data/smoke/raw/babylm_slice.txt
   replacement_pool: data/smoke/raw/pool_slice.txt

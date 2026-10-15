@@ -49,7 +49,7 @@ evaluation:
 
 # BabyLM data sources on the Hugging Face Hub. These are the official 2026
 # edition repos (per-domain `<domain>.train.txt` files). When BabyLM re-releases,
-# point these at the new edition — the download stage reads them from here, so
+# point these at the new edition: the download stage reads them from here, so
 # no code change is needed. Current repos are linked from https://babylm.github.io.
 data:
   strict_small_repo: BabyLM-community/BabyLM-2026-Strict-Small   # the 10M train set

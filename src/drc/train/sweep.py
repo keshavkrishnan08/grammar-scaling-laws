@@ -167,7 +167,7 @@ def run_pilot(config_path: Path, config: dict[str, Any]) -> bool:
         return False
 
     if ppl is None or ppl != ppl:  # None or NaN
-        logger.error("Pilot perplexity is %s — recipe is broken. Stopping.", ppl)
+        logger.error("Pilot perplexity is %s, recipe is broken. Stopping.", ppl)
         return False
     if ppl >= threshold:
         logger.error(
@@ -252,7 +252,7 @@ def run_sweep(
             # means poor models, but we'd rather press on and let you see the
             # results than halt the whole run. Re-run with skip_pilot to silence.
             logger.error(
-                "PILOT GATE FAILED — the recipe may be broken (check the pilot's "
+                "PILOT GATE FAILED, the recipe may be broken (check the pilot's "
                 "perplexity/loss above). Continuing the sweep anyway; expect "
                 "weak models if the pilot was genuinely bad."
             )
@@ -285,7 +285,7 @@ def run_sweep(
         len(grid), len(grid) - len(pending), len(pending),
     )
     if not pending:
-        logger.info("Nothing to do — every run is already complete.")
+        logger.info("Nothing to do, every run is already complete.")
         return
 
     if single_gpu:

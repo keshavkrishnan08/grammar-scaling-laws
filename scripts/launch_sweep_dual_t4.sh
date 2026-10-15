@@ -7,6 +7,6 @@ set -euo pipefail
 
 CONFIG="${CONFIG:-configs/base.yaml}"
 
-nvidia-smi || { echo "No GPU visible — this launcher needs CUDA."; exit 1; }
+nvidia-smi || { echo "No GPU visible, this launcher needs CUDA."; exit 1; }
 
 python -m drc.train.sweep --config "$CONFIG"

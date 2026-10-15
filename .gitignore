@@ -1,5 +1,5 @@
 # Data and model artifacts are reconstructed by the pipeline, never committed.
-# BabyLM is redistributed under its own terms — see data/README.md for download.
+# BabyLM is redistributed under its own terms: see data/README.md for download.
 data/raw/
 data/parsed/
 data/filtered/

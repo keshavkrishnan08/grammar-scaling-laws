@@ -13,7 +13,7 @@ This project is built to be re-run end to end. Here's the EMNLP-style checklist,
 - [x] **Code MIT-licensed.** See `LICENSE`. (BabyLM and external eval sets carry their own licenses.)
 - [x] **Filter precision/recall reported.** Audited via `drc.data.qa_audit` against the bar precision ≥ 0.90, recall ≥ 0.85, per construction.
 - [x] **Bootstrap iterations reported.** 1000 parametric-bootstrap resamples for the Hill CIs (`N_BOOTSTRAP = 1000`).
-- [x] **Hypotheses pre-registered.** H1–H5 and the deflationary / composite outcomes are fixed in `docs/PRD.md` §4-5 *before* fitting.
+- [x] **Hypotheses pre-registered.** H1-H5 and the deflationary / composite outcomes are fixed in `docs/PRD.md` §4-5 *before* fitting.
 - [x] **Decision rules pre-registered.** Exact thresholds live as named constants in `drc.analysis.decision`; documented in `docs/METHODS.md` §6.
 - [x] **All figures script-generated.** Every figure is produced by `drc.analysis.figures` from the result CSVs, no manual numbers.
 - [x] **Single source of truth for constants.** Construction codes, dose levels, and seeds are defined once in `src/drc/__init__.py` and imported everywhere.
