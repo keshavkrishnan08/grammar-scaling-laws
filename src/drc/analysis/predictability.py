@@ -161,7 +161,7 @@ def _content_tokens(text: str) -> list[str]:
     """
     out: list[str] = []
     for tok in text.lower().split():
-        word = tok.strip(".,!?;:\"'()[]{}, --")
+        word = tok.strip(".,!?;:\"'()[]{}\u2014\u2013-")
         if word and word not in _STOPWORDS:
             out.append(word)
     return out

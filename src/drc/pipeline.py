@@ -184,7 +184,7 @@ def run_pipeline(
             stage.action()
             results[stage.name] = StageResult(stage.name, DONE, seconds=time.time() - t0)
             logger.info("[done] %s (%.1fs)", stage.name, time.time() - t0)
-        except Exception as exc:  # noqa: BLE001: isolation is the whole point
+        except Exception as exc:  # noqa: BLE001 (isolation is the whole point)
             results[stage.name] = StageResult(
                 stage.name, FAILED, seconds=time.time() - t0, detail=str(exc)
             )
