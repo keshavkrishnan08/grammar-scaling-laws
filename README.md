@@ -12,9 +12,6 @@ times a target construction appears, and fits the four-parameter Hill equation f
 Its parameters answer separate questions: how much a model gets from indirect evidence alone, how
 much direct evidence the rest takes, and whether learning arrives smoothly or all at once.
 
-Manuscript draft: **`paper/main.tex`** (written for EMNLP 2026; every data-dependent claim is a
-marked `RESULT PENDING` placeholder).
-
 ```
 BabyLM 2026 Strict-Small (10M words) + a 100M-word replacement pool
     ->  Stanza dependency parse, 8 construction detectors, hand-labeled filter audit
